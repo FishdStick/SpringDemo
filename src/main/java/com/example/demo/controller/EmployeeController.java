@@ -13,12 +13,8 @@ public class EmployeeController {
     private EmployeeService service;
 
     @GetMapping("/")
-    public String viewHomePage(Model model, @RequestParam(required = false) String name) {
-        if(name!=null){
-            model.addAttribute("listEmployees", service.getAllEmployeesByName(name));
-        }else{
-            model.addAttribute("listEmployees", service.getAllEmployees());
-        }
+    public String viewHomePage(Model model) {
+        model.addAttribute("listEmployees", service.getAllEmployees());
         return "index";
     }
 
@@ -28,12 +24,6 @@ public class EmployeeController {
         model.addAttribute("employee", employee);
         return "new_employee";
     }
-
-//    @GetMapping("/findEmployeeByName")
-//    public String findEmployeeByName(Model model, @RequestParam String name) {
-//        model.addAttribute("listEmployees", service.getAllEmployeesByName(name));
-//        return "index";
-//    }
 
     @PostMapping("/saveEmployee")
     public String saveEmployee(@ModelAttribute("employee") Employee employee) {
@@ -53,5 +43,16 @@ public class EmployeeController {
         service.deleteEmployee(id);
         return "redirect:/";
     }
-}
 
+    @GetMapping("/employeesByRole")
+    public String getEmployeesByRole(@RequestParam("role") String role, Model model) {
+        model.addAttribute("listEmployees", service.getEmployeesByRole(role));
+        return "index";
+    }
+
+    @GetMapping("/employeesByNameNative")
+    public String getEmployeesByNameNative(@RequestParam("name") String name, Model model) {
+        model.addAttribute("listEmployees", service.getEmployeesByNameNative(name));
+        return "index";
+    }
+}

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Employee Management</title>
+</head>
+<body>
+<h2>Employee List</h2>
+<form action="/" method="get">
+    <button type="submit">Refresh</button>
+</form>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Role</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${listEmployees}">
+        <td th:text="${employee.name}">Name</td>
+        <td th:text="${employee.role}">Role</td>
+        <td>
+            <a th:href="@{/showFormForUpdate/{id}(id=${employee.id})}">Update</a>
+            <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a href="/showNewEmployeeForm">Add New Employee</a>
+<form action="/employeesByRole" method="get">
+    <label>Role:</label>
+    <input type="text" name="role" />
+    <button type="submit">Search by Role</button>
+</form>
+<form action="/employeesByNameNative" method="get">
+    <label>Name:</label>
+    <input type="text" name="name" />
+    <button type="submit">Search by Name</button>
+</form>
+</body>
+</html>
